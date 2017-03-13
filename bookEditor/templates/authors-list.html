@@ -1,0 +1,67 @@
+﻿<div class="page-header">
+    <h1>Authors</h1>
+</div>
+
+<div id="notificationMessage" ng-if="notification.showMessageFlag" ng-class="notification.messageType" class="alert info-message-block" role="alert">
+    <a href="#" class="alert-link">{{notification.infoMessage}}</a>
+    <a ng-click="hideNotificationPanel()" class="btn btn-xs glyphicon glyphicon-remove pull-right"></a>
+</div>
+
+
+<div ng-show="authorListLoaded  && (data.authors.length == 0)" class="col-md-6">
+    <h2>No authors available</h2>
+</div>
+
+<div ng-show="!authorListLoaded" class="progress author-list-progress col-md-6">
+    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%" />
+</div>
+
+<div ng-show="authorListLoaded  && (data.authors.length > 0)" id="books-container" class="col-md-6" custom-scroll="275">
+
+    <ul class="list-group">
+        <li ng-repeat="author in data.authors" class="list-group-item">
+            <div class="author-list-name">
+                <span>{{author.lastName}}</span>
+                <span>{{author.firstName}}</span>
+                <span>{{author.patronymicName}}</span>
+            </div>
+            <a ng-click="$parent.deleteAuthor(author.id)" class="btn btn-default btn-sm glyphicon glyphicon-remove pull-right"></a>
+        </li>
+    </ul>
+</div>
+
+<div class="col-md-4">
+    <div class="panel panel-default new-author-panel">
+        <div class="panel-body">
+            <form name="authorForm" ng-submit="addAuthor()">
+                <div class="input-group input-group-sm author-name-block">
+                    <span class="input-group-addon author-name-title" id="sizing-addon3">First name</span>
+                    <input name="firstName" required ng-maxlength="20" unique-author ng-model="data.author.firstName" type="text" class="form-control" placeholder="first name" aria-describedby="sizing-addon3" />
+                </div>
+                <div class="author-validation-block">
+                    <span class="author-validation-message" ng-show="authorForm.firstName.$dirty && authorForm.firstName.$error.required">First name is required field</span>
+                    <span class="author-validation-message" ng-show="authorForm.firstName.$dirty && authorForm.firstName.$error.maxlength">Field length should not exceed 20 characters</span>
+                </div>
+
+                <div class="input-group input-group-sm author-name-block">
+                    <span class="input-group-addon author-name-title" id="sizing-addon3">Last name</span>
+                    <input name="lastName" required ng-maxlength="20" unique-author ng-model="data.author.lastName" type="text" class="form-control" placeholder="last name" aria-describedby="sizing-addon3" />
+                </div>
+                <div class="author-validation-block">
+                    <span class="author-validation-message" ng-show="authorForm.lastName.$dirty && authorForm.lastName.$error.required">Last name is required field</span>
+                    <span class="author-validation-message" ng-show="authorForm.lastName.$dirty && authorForm.lastName.$error.maxlength">Field length should not exceed 20 characters</span>
+                </div>
+
+                <div class="input-group input-group-sm author-name-block">
+                    <span class="input-group-addon author-name-title" id="sizing-addon3">Patronymic name</span>
+                    <input name="patronymicName" unique-author ng-model="data.author.patronymicName" type="text" class="form-control" placeholder="patronymic name" aria-describedby="sizing-addon3" />
+                </div>
+
+                <div class="author-unique-validation-block">
+                    <span class="author-unique-validation-message author-validation-message" ng-show="(authorForm.firstName.$dirty && authorForm.lastName.$dirty) && (authorForm.firstName.$error.uniqueAuthor || authorForm.lastName.$error.uniqueAuthor || authorForm.patronymicName.$error.uniqueAuthor)">This author already added</span>
+                </div>
+        <input type="submit" class="btn btn-primary" value="Add Author" ng-disabled="authorForm.$invalid" />
+        </form>
+    </div>
+    </div>
+</div>
