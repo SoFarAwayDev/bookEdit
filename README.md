@@ -1,5 +1,7 @@
 # bookEdit
-Test SPA project. Based on asp.net, angular and bootstrap
+Test SPA project. Based on asp.net, angular and bootstrap.
+
+It is and book library manager in a nutshell. You can can add, delete and view books and authors.
 
 Site working almost out of box. With the exception of a couple of things.
 
